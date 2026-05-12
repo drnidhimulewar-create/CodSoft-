@@ -1,5 +1,4 @@
 # Task 2 - Calculator
-# CodSoft Python Internship
 
 def add(a, b):
     return a + b
