@@ -1,0 +1,141 @@
+# Task 5 - Contact Book
+
+# I'm using a dictionary to store all contacts
+# each contact name is the key, and their details are stored as another dictionary inside
+contacts = {}
+
+def add_contact():
+    print("\n-- Add New Contact --")
+    name = input("Enter name: ").strip()
+
+    if name == '':
+        print("Name can't be empty!")
+        return
+
+    if name in contacts:
+        print(f"A contact with the name '{name}' already exists!")
+        return
+
+    phone = input("Enter phone number: ").strip()
+    email = input("Enter email address: ").strip()
+    address = input("Enter address: ").strip()
+
+    # store all the details inside the contacts dictionary
+    contacts[name] = {
+        "phone": phone,
+        "email": email,
+        "address": address
+    }
+
+    print(f"\nContact '{name}' saved successfully!")
+
+
+def view_all_contacts():
+    print("\n-- All Contacts --")
+
+    if len(contacts) == 0:
+        print("You have no contacts saved yet.")
+        return
+
+    # print a simple table with name and phone
+    print(f"\n{'Name':<20} {'Phone':<15}")
+    print("-" * 36)
+
+    for name in contacts:
+        print(f"{name:<20} {contacts[name]['phone']:<15}")
+
+
+def search_contact():
+    print("\n-- Search Contact --")
+    query = input("Enter name or phone number: ").strip().lower()
+
+    found = False
+
+    for name in contacts:
+        # check if the search query matches name or phone number
+        if query in name.lower() or query in contacts[name]['phone']:
+            print(f"\nName    : {name}")
+            print(f"Phone   : {contacts[name]['phone']}")
+            print(f"Email   : {contacts[name]['email']}")
+            print(f"Address : {contacts[name]['address']}")
+            found = True
+
+    if not found:
+        print("No contact found!")
+
+
+def update_contact():
+    print("\n-- Update Contact --")
+    name = input("Enter the name of the contact you want to update: ").strip()
+
+    if name not in contacts:
+        print(f"No contact found with the name '{name}'")
+        return
+
+    print("\nPress Enter to keep the current value, or type new value:")
+
+    new_phone = input(f"Phone [{contacts[name]['phone']}]: ").strip()
+    new_email = input(f"Email [{contacts[name]['email']}]: ").strip()
+    new_address = input(f"Address [{contacts[name]['address']}]: ").strip()
+
+    # only update if the user actually typed something
+    if new_phone != '':
+        contacts[name]['phone'] = new_phone
+    if new_email != '':
+        contacts[name]['email'] = new_email
+    if new_address != '':
+        contacts[name]['address'] = new_address
+
+    print(f"\nContact '{name}' updated!")
+
+
+def delete_contact():
+    print("\n-- Delete Contact --")
+    name = input("Enter the name of the contact to delete: ").strip()
+
+    if name not in contacts:
+        print(f"No contact found with the name '{name}'")
+        return
+
+    # just making sure before deleting
+    confirm = input(f"Are you sure you want to delete '{name}'? (yes/no): ").lower()
+
+    if confirm == 'yes':
+        del contacts[name]
+        print(f"Contact '{name}' deleted.")
+    else:
+        print("Okay, deletion cancelled.")
+
+
+# this is the main part of the program
+print("============================")
+print("        Contact Book        ")
+print("============================")
+
+while True:
+    print("\nWhat do you want to do?")
+    print("1. Add a contact")
+    print("2. View all contacts")
+    print("3. Search for a contact")
+    print("4. Update a contact")
+    print("5. Delete a contact")
+    print("6. Exit")
+
+    choice = input("\nYour choice: ")
+
+    if choice == '1':
+        add_contact()
+    elif choice == '2':
+        view_all_contacts()
+    elif choice == '3':
+        search_contact()
+    elif choice == '4':
+        update_contact()
+    elif choice == '5':
+        delete_contact()
+    elif choice == '6':
+        print("\nClosing contact book. Bye!")
+        break
+    else:
+        print("Invalid choice! Please enter a number from 1 to 6.")
+
